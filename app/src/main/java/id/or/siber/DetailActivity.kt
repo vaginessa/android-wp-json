@@ -2,6 +2,7 @@ package id.or.siber
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -45,4 +46,14 @@ class DetailActivity : AppCompatActivity() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(imageView)
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
