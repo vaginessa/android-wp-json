@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient))
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById(R.id.drawer_layout)
         recyclerView = findViewById(R.id.drawer_recycler_view)

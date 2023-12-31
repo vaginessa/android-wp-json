@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">SIBER - Situs Berita Indonesia</string>
+    <string name="app_name">SIBER</string>
+    <string name="app_title">SIBER - Situs Berita</string>
     <string name="search">Cari...</string>
     <string name="share">Bagikan</string>
 </resources>
