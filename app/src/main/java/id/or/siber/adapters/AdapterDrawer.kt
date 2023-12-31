@@ -37,7 +37,9 @@ class AdapterDrawer(private var items: List<ModelCategoryItem>, private val item
         }
 
         fun bind(item: ModelCategoryItem) {
-            title.text = item.name
+            if (item.name.toString() != "Tak Berkategori") {
+                title.text = item.name
+            }
         }
     }
 

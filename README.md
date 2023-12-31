@@ -22,6 +22,14 @@ A few resources to get you started's:
 
 - [WordPress REST API Handbook](https://developer.wordpress.org/rest-api/reference/posts/)
 
+## Features
+
+- Fetch category `/wp-json/wp/v2/categories` as left drawer menu
+- Posts list `/wp-json/wp/v2/posts` with filter search and pagination load more on scroll
+- Thumbnails `/wp-json/wp/v2/media/{mediaId}` pre fetch featured media into posts list
+
+Detail API used of this app, you can check at [Retrofit Interface](https://github.com/CreatorB/android-wp-json/blob/main/app/src/main/java/id/or/siber/interfaces/ApiService.kt) file.
+
 ## Contribution
 
 This is a very simple Showcase and you're welcome to contribute.

@@ -16,7 +16,8 @@ interface ApiService {
     @GET("/wp-json/wp/v2/posts")
     fun getPosts(
         @Query("per_page") perPage: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("search") query: String
     ): Call<List<ModelPostItem>>
 
     @GET("/wp-json/wp/v2/posts")

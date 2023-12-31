@@ -1,16 +1,18 @@
 package id.or.siber
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
 import id.or.siber.adapters.AdapterDrawer
 import id.or.siber.adapters.AdapterPost
 import id.or.siber.interfaces.ApiService
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvPost: RecyclerView
     private lateinit var adapterPost: AdapterPost
 
+    var searchQuery = ""
     var category = 0
     var currentPage = 1
     val perPage = 5
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var getPosts: Call<List<ModelPostItem>>
+
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,7 +114,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        swipeRefreshLayout.setOnRefreshListener { initData() }
+        swipeRefreshLayout.setOnRefreshListener {
+            searchView.setQuery("", false)
+            searchView.clearFocus()
+            searchQuery = ""
+            category = 0
+            currentPage = 1
+            initData()
+        }
 
         initData()
     }
@@ -119,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         if (category != 0) {
             getPosts = apiService.getPostsByCategory(5, 1, category)
         } else {
-            getPosts = apiService.getPosts(5, 1)
+            getPosts = apiService.getPosts(5, 1, searchQuery)
         }
         getPosts.enqueue(object : Callback<List<ModelPostItem>> {
             override fun onResponse(
@@ -176,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         if (category != 0) {
             getPosts = apiService.getPostsByCategory(perPage, currentPage, category)
         } else {
-            getPosts = apiService.getPosts(perPage, currentPage)
+            getPosts = apiService.getPosts(perPage, currentPage, searchQuery)
         }
         getPosts.enqueue(object : Callback<List<ModelPostItem>> {
             override fun onResponse(
@@ -256,5 +268,37 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Perform the final search
+                query?.let { performSearch(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                newText?.let { performSearch(it) }
+                if (newText.isNullOrEmpty()) {
+                    performSearch("")
+                }
+                return true
+            }
+        })
+        return true
+    }
+
+    private fun performSearch(query: String) {
+        // Filter the dataset based on the query
+//        val filteredPosts = posts.filter { it.title.rendered.contains(query, ignoreCase = true) }
+//        updateRecyclerView(filteredPosts, thumbnailUrls)
+        adapterPost.clear()
+        searchQuery = query
+        initData()
     }
 }

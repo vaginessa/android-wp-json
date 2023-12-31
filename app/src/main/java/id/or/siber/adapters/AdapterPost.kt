@@ -41,6 +41,9 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        Glide.with(holder.itemView.context)
+            .load(R.drawable.no_img)
+            .into(holder.thumnails)
         val post = posts[position]
         val thumbnailUrl = thumbnailUrls[post.featuredMedia]
         if (thumbnailUrl != null) {
@@ -102,6 +105,7 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
 //            intent.putExtra("media", urlMedia)
             intent.putExtra("media", thumbnailUrl)
             intent.putExtra("date", localDate)
+            intent.putExtra("guid", post?.guid?.rendered)
             holder.itemView.context.startActivity(intent)
         }
     }
