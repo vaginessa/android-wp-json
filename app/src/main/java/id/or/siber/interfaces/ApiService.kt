@@ -1,6 +1,7 @@
 package id.or.siber.interfaces
 
 import id.or.siber.models.category.ModelCategoryItem
+import id.or.siber.models.detailpost.ModelCategoryId
 import id.or.siber.models.media.ModelMedia
 import id.or.siber.models.post.ModelPostItem
 import retrofit2.Call
@@ -12,6 +13,9 @@ interface ApiService {
 
     @GET("/wp-json/wp/v2/categories") // Replace with your actual endpoint
     fun getDrawerItems(): Call<List<ModelCategoryItem>>
+
+    @GET("/wp-json/wp/v2/categories/{categoryId}")
+    fun getCategoryById(@Path("categoryId") categoryId: Int): Call<ModelCategoryId>
 
     @GET("/wp-json/wp/v2/posts")
     fun getPosts(

@@ -36,5 +36,5 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/ab_gradient_horizontal" />
+        android:background="@android:color/white" />
 </androidx.drawerlayout.widget.DrawerLayout>

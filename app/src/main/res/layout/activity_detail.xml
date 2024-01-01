@@ -16,7 +16,6 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp">
@@ -30,6 +29,7 @@
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <androidx.appcompat.widget.Toolbar
+                app:titleTextColor="@android:color/white"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"

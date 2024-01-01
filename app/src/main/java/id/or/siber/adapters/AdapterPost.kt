@@ -24,7 +24,8 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thumbnailUrls: MutableMap<Int, String>) :
+class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thumbnailUrls: MutableMap<Int, String>,
+                  private val categories: MutableMap<Int, String>) :
     RecyclerView.Adapter<AdapterPost.PostViewHolder>() {
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,6 +47,7 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
             .into(holder.thumnails)
         val post = posts[position]
         val thumbnailUrl = thumbnailUrls[post.featuredMedia]
+        val category = categories[post.categories.first()]
         if (thumbnailUrl != null) {
             Glide.with(holder.itemView.context)
                 .load(thumbnailUrl)
@@ -106,18 +108,20 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
             intent.putExtra("media", thumbnailUrl)
             intent.putExtra("date", localDate)
             intent.putExtra("guid", post?.guid?.rendered)
+            intent.putExtra("category", category)
             holder.itemView.context.startActivity(intent)
         }
     }
 
     // Method to add a single item
-    fun addItem(newItem: ModelPostItem) {
-        posts.add(newItem)
-        notifyItemInserted(posts.size - 1)
-    }
+//    fun addItem(newItem: ModelPostItem) {
+//        posts.add(newItem)
+//        notifyItemInserted(posts.size - 1)
+//    }
 
     // Method to add all items from a list
-    fun addAll(newItems: List<ModelPostItem>, newThumnails: MutableMap<Int, String>) {
+    fun addAll(newItems: List<ModelPostItem>, newThumnails: MutableMap<Int, String>,
+               newCategories: MutableMap<Int, String>) {
         val startIndex: Int = posts.size
         posts.addAll(newItems)
         notifyItemRangeInserted(startIndex, newItems.size)
@@ -125,6 +129,10 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
         val i: Int = thumbnailUrls.size
         thumbnailUrls.putAll(newThumnails)
         notifyItemRangeInserted(i, newThumnails.size)
+
+        val j: Int = categories.size
+        categories.putAll(newCategories)
+        notifyItemRangeInserted(j, newCategories.size)
     }
 
     override fun getItemCount() = posts.size
@@ -137,5 +145,9 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
         val sizeThumnail: Int = thumbnailUrls.size
         thumbnailUrls.clear()
         notifyItemRangeRemoved(0, sizeThumnail)
+
+        val sizeCategory: Int = categories.size
+        categories.clear()
+        notifyItemRangeRemoved(0, sizeCategory)
     }
 }

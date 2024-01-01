@@ -1,7 +1,11 @@
 package id.or.siber
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -30,10 +34,20 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 //        setSupportActionBar(findViewById(R.id.toolbar))
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.background = ContextCompat.getDrawable(this, R.drawable.ab_gradient)
         setSupportActionBar(toolbar)
+        val upArrow = ContextCompat.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material)?.mutate()
+        upArrow?.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP)
+        supportActionBar?.setHomeAsUpIndicator(upArrow)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
+        supportActionBar?.title = intent.getStringExtra("category") ?: ""
+        supportActionBar?.let {
+            val textColor = ContextCompat.getColor(this, R.color.white)
+            val title = SpannableString(supportActionBar?.title).apply {
+                setSpan(ForegroundColorSpan(textColor), 0, length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+            supportActionBar?.title = title
+        }
+//        supportActionBar?.setStackedBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_horizontal))
 
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar)
         appBarLayout = findViewById(R.id.appBar)

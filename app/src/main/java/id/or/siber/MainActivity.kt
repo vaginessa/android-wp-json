@@ -18,6 +18,7 @@ import id.or.siber.adapters.AdapterDrawer
 import id.or.siber.adapters.AdapterPost
 import id.or.siber.interfaces.ApiService
 import id.or.siber.models.category.ModelCategoryItem
+import id.or.siber.models.detailpost.ModelCategoryId
 import id.or.siber.models.media.ModelMedia
 import id.or.siber.models.post.ModelPostItem
 import id.or.siber.utils.RetrofitClient
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val apiService = RetrofitClient.retrofit.create(ApiService::class.java)
     private var posts: MutableList<ModelPostItem> = mutableListOf()
     val thumbnailUrls = mutableMapOf<Int, String>()
+    val categories = mutableMapOf<Int, String>()
 
     private lateinit var rvPost: RecyclerView
     private lateinit var adapterPost: AdapterPost
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient))
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_horizontal))
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById(R.id.drawer_layout)
         recyclerView = findViewById(R.id.drawer_recycler_view)
@@ -97,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         rvPost = findViewById(R.id.rvPost)
         val layoutManager = LinearLayoutManager(this)
         rvPost.layoutManager = layoutManager
-        adapterPost = AdapterPost(posts, thumbnailUrls)
+        adapterPost = AdapterPost(posts, thumbnailUrls, categories)
         rvPost.adapter = adapterPost
 
 //        val layoutManager = LinearLayoutManager(this)
@@ -168,8 +170,25 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 })
                             }
+
+                            if (post.categories.size > 0) {
+                                val service = RetrofitClient.retrofit.create(ApiService::class.java)
+                                service.getCategoryById(post.categories.first()).enqueue(object : Callback<ModelCategoryId> {
+                                    override fun onResponse(call: Call<ModelCategoryId>, response: Response<ModelCategoryId>) {
+                                        val item = response.body()
+                                        val category = item?.name ?: ""
+                                        if (category != null) {
+                                            categories[post.categories.first()] = category
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<ModelCategoryId>, t: Throwable) {
+                                        // Handle failure
+                                    }
+                                })
+                            }
                         }
-                        updateRecyclerView(newPosts, thumbnailUrls)
+                        updateRecyclerView(newPosts, thumbnailUrls, categories)
                         currentPage++
                         isLoading = false
                         progressBar.visibility = View.GONE
@@ -224,8 +243,25 @@ class MainActivity : AppCompatActivity() {
                                     }
                                 })
                             }
+
+                            if (post.categories.size > 0) {
+                                val service = RetrofitClient.retrofit.create(ApiService::class.java)
+                                service.getCategoryById(post.categories.first()).enqueue(object : Callback<ModelCategoryId> {
+                                    override fun onResponse(call: Call<ModelCategoryId>, response: Response<ModelCategoryId>) {
+                                        val item = response.body()
+                                        val category = item?.name ?: ""
+                                        if (category != null) {
+                                            categories[post.categories.first()] = category
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<ModelCategoryId>, t: Throwable) {
+                                        // Handle failure
+                                    }
+                                })
+                            }
                         }
-                        updateRecyclerView(newPosts, thumbnailUrls)
+                        updateRecyclerView(newPosts, thumbnailUrls, categories)
                         currentPage++
                         isLoading = false
                         progressBar.visibility = View.GONE
@@ -241,9 +277,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun updateRecyclerView(posts: List<ModelPostItem>, thumbnailUrls: MutableMap<Int, String>) {
+    fun updateRecyclerView(posts: List<ModelPostItem>, thumbnailUrls: MutableMap<Int, String>,
+                           categories: MutableMap<Int, String>) {
         if (posts != null) {
-            adapterPost.addAll(posts, thumbnailUrls)
+            adapterPost.addAll(posts, thumbnailUrls, categories)
             adapterPost.notifyDataSetChanged()
         } else {
             // Handle unsuccessful response

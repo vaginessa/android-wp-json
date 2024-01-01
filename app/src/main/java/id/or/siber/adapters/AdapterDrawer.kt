@@ -26,6 +26,7 @@ class AdapterDrawer(private var items: List<ModelCategoryItem>, private val item
 
     inner class DrawerViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val title: TextView = view.findViewById(R.id.text_view_title)
+        private val divider: View = view.findViewById(R.id.divider)
 
         init {
             view.setOnClickListener {
@@ -39,6 +40,7 @@ class AdapterDrawer(private var items: List<ModelCategoryItem>, private val item
         fun bind(item: ModelCategoryItem) {
             if (item.name.toString() != "Tak Berkategori") {
                 title.text = item.name
+                divider.visibility = View.VISIBLE
             }
         }
     }

@@ -6,16 +6,18 @@
     android:padding="16dp">
 
     <TextView
+        android:textColor="@android:color/black"
         android:id="@+id/text_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@android:color/white"
         android:textSize="16sp" />
 
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:background="?attr/dividerHorizontal" />-->
+    <View
+        android:visibility="gone"
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/dividerHorizontal" />
 
 </LinearLayout>
