@@ -13,7 +13,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.appbar.AppBarLayout
 import id.or.siber.adapters.AdapterDrawer
 import id.or.siber.adapters.AdapterPost
 import id.or.siber.interfaces.ApiService
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_horizontal))
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_vertical))
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById(R.id.drawer_layout)
         recyclerView = findViewById(R.id.drawer_recycler_view)

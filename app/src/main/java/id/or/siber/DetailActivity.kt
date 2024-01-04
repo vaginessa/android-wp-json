@@ -32,7 +32,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-//        setSupportActionBar(findViewById(R.id.toolbar))
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val upArrow = ContextCompat.getDrawable(this, androidx.appcompat.R.drawable.abc_ic_ab_back_material)?.mutate()
@@ -47,10 +46,10 @@ class DetailActivity : AppCompatActivity() {
             }
             supportActionBar?.title = title
         }
-//        supportActionBar?.setStackedBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_horizontal))
-
-        collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar)
-        appBarLayout = findViewById(R.id.appBar)
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_vertical))
+//        to use parallax effect uncomment the code below and use activity_detail2 as layout
+//        collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar)
+//        appBarLayout = findViewById(R.id.appBar)
         imageView = findViewById(R.id.imageView)
         tvTitle = findViewById(R.id.tvTitle)
         tvContent = findViewById(R.id.tvContent)
