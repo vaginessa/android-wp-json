@@ -39,13 +39,13 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(upArrow)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra("category") ?: ""
-        supportActionBar?.let {
-            val textColor = ContextCompat.getColor(this, R.color.white)
-            val title = SpannableString(supportActionBar?.title).apply {
-                setSpan(ForegroundColorSpan(textColor), 0, length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            }
-            supportActionBar?.title = title
-        }
+//        supportActionBar?.let {
+//            val textColor = ContextCompat.getColor(this, R.color.white)
+//            val title = SpannableString(supportActionBar?.title).apply {
+//                setSpan(ForegroundColorSpan(textColor), 0, length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+//            }
+//            supportActionBar?.title = title
+//        }
         supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.ab_gradient_vertical))
 //        to use parallax effect uncomment the code below and use activity_detail2 as layout
 //        collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar)
@@ -88,7 +88,7 @@ class DetailActivity : AppCompatActivity() {
     private fun shareContent() {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("guid"))
+            putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("title") + ". Klik >> " + intent.getStringExtra("guid"))
             type = "text/plain"
         }
         startActivity(Intent.createChooser(shareIntent, getString(R.string.share)))

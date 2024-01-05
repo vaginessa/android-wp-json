@@ -2,7 +2,6 @@ package id.or.siber.adapters
 
 import android.content.Intent
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +12,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import id.or.siber.DetailActivity
 import id.or.siber.R
-import id.or.siber.interfaces.ApiService
-import id.or.siber.models.media.ModelMedia
 import id.or.siber.models.post.ModelPostItem
 import id.or.siber.utils.HtmlUtils
-import id.or.siber.utils.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -97,7 +90,10 @@ class AdapterPost(private val posts: MutableList<ModelPostItem>, private val thu
         val dateString = post?.date
         val calendar = Calendar.getInstance()
         calendar.setTime(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(dateString))
-        val localDate = DateUtils.formatDateTime(holder.itemView.context, calendar.timeInMillis, DateUtils.FORMAT_SHOW_YEAR)
+        val localDate = DateUtils.formatDateTime(holder.itemView.context, calendar.timeInMillis,
+            DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
+                    DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY
+        )
         holder.dateTime.text = localDate
 
         holder.itemView.setOnClickListener {
